@@ -1,0 +1,23 @@
+# Binaries and Intermediate Files
+x64/
+bin/
+bin-int/
+build/
+
+# Compiled Executables and Libraries
+*.dll
+*.exe
+
+# Visual Studio Project Files
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.user
+
+# Visual Studio Code Settings
+*.vscode/
+*.vs/
+
+# Other
+*.log
+*.tmp
