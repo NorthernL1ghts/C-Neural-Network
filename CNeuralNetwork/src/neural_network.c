@@ -1,34 +1,28 @@
 #include "neural_network.h"
 
 // Activation function: Sigmoid
-double Sigmoid(double x) {
-    return 1.0 / (1.0 + exp(-x));
-}
+double Sigmoid(double x) { return 1.0 / (1.0 + exp(-x)); }
 
 // Derivative of Sigmoid function
-double SigmoidDerivative(double x) {
-    return x * (1.0 - x);
-}
+double SigmoidDerivative(double x) {  return x * (1.0 - x); }
 
 // Random number generator
-double Random() {
-    return (double)rand() / RAND_MAX * 2.0 - 1.0;
-}
+double Random() { return (double)rand() / RAND_MAX * 2.0 - 1.0; }
 
 // Normalize the data
-double Normalize(double value, double mean, double stddev) {
-    return (value - mean) / stddev;
-}
+double Normalize(double value, double mean, double stddev) { return (value - mean) / stddev; }
 
 // Initialize weights with small random values
-void Initialize(double weights[][NUM_INPUTS], int rows, int cols) {
+void Initialize(double weights[][NUM_INPUTS], int rows, int cols)
+{
     for (int i = 0; i < rows; i++)
         for (int j = 0; j < cols; j++)
             weights[i][j] = Random();
 }
 
 // Calculate the dot product of inputs and weights
-double Activate(double* weights, double* inputs, int len) {
+double Activate(double* weights, double* inputs, int len) 
+{
     double sum = 0.0;
     for (int i = 0; i < len; i++)
         sum += weights[i] * inputs[i];
@@ -36,7 +30,8 @@ double Activate(double* weights, double* inputs, int len) {
 }
 
 // Calculate Mean Squared Error (MSE) for regression
-double CalculateMSE(double* outputs, double* expected) {
+double CalculateMSE(double* outputs, double* expected) 
+{
     double sum = 0.0;
     for (int i = 0; i < NUM_OUTPUTS; i++)
         sum += pow(outputs[i] - expected[i], 2);
@@ -44,8 +39,10 @@ double CalculateMSE(double* outputs, double* expected) {
 }
 
 // Shuffle the data (optional for better convergence)
-void Shuffle(double* data, int dataSize) {
-    for (int i = 0; i < dataSize; i++) {
+void Shuffle(double* data, int dataSize) 
+{
+    for (int i = 0; i < dataSize; i++) 
+    {
         int j = rand() % dataSize;
         double temp = data[i];
         data[i] = data[j];
@@ -54,7 +51,9 @@ void Shuffle(double* data, int dataSize) {
 }
 
 // Forward propagation (with 2 hidden layers)
-void ForwardPropagation(double inputs[], double hiddenLayer[], double hiddenLayer2[], double outputs[], double weightsIH[][NUM_HIDDEN_NEURONS], double weightsIH2[][NUM_HIDDEN_NEURONS_2], double weightsHO2[][NUM_OUTPUTS]) {
+void ForwardPropagation(double inputs[], double hiddenLayer[], double hiddenLayer2[], double outputs[], double weightsIH[][NUM_HIDDEN_NEURONS], 
+    double weightsIH2[][NUM_HIDDEN_NEURONS_2], double weightsHO2[][NUM_OUTPUTS]) 
+{
     // First hidden layer
     for (int i = 0; i < NUM_HIDDEN_NEURONS; i++)
         hiddenLayer[i] = Sigmoid(Activate(weightsIH[i], inputs, NUM_INPUTS));
@@ -69,11 +68,14 @@ void ForwardPropagation(double inputs[], double hiddenLayer[], double hiddenLaye
 }
 
 // Backpropagation for weight adjustments
-void Backpropagation(double inputs[], double hiddenLayer[], double hiddenLayer2[], double outputs[], double expected[], double weightsIH[][NUM_HIDDEN_NEURONS], double weightsIH2[][NUM_HIDDEN_NEURONS_2], double weightsHO2[][NUM_OUTPUTS], double learningRate) {
+void Backpropagation(double inputs[], double hiddenLayer[], double hiddenLayer2[], double outputs[], double expected[], double weightsIH[][NUM_HIDDEN_NEURONS], 
+    double weightsIH2[][NUM_HIDDEN_NEURONS_2], double weightsHO2[][NUM_OUTPUTS], double learningRate) 
+{
     double outputError[NUM_OUTPUTS];
     double outputDelta[NUM_OUTPUTS];
 
-    for (int i = 0; i < NUM_OUTPUTS; i++) {
+    for (int i = 0; i < NUM_OUTPUTS; i++) 
+    {
         outputError[i] = expected[i] - outputs[i];
         outputDelta[i] = outputError[i] * SigmoidDerivative(outputs[i]);
     }
@@ -81,7 +83,8 @@ void Backpropagation(double inputs[], double hiddenLayer[], double hiddenLayer2[
     double hiddenLayer2Error[NUM_HIDDEN_NEURONS_2];
     double hiddenLayer2Delta[NUM_HIDDEN_NEURONS_2];
 
-    for (int i = 0; i < NUM_HIDDEN_NEURONS_2; i++) {
+    for (int i = 0; i < NUM_HIDDEN_NEURONS_2; i++) 
+    {
         hiddenLayer2Error[i] = 0.0;
         for (int j = 0; j < NUM_OUTPUTS; j++)
             hiddenLayer2Error[i] += outputDelta[j] * weightsHO2[j][i];
@@ -114,7 +117,8 @@ void Backpropagation(double inputs[], double hiddenLayer[], double hiddenLayer2[
 }
 
 // Updated Train function with progress printing
-void Train(double trainingData[][NUM_INPUTS], double expectedData[][NUM_OUTPUTS], int dataSize) {
+void Train(double trainingData[][NUM_INPUTS], double expectedData[][NUM_OUTPUTS], int dataSize)
+{
     double weightsIH[NUM_HIDDEN_NEURONS][NUM_INPUTS];
     double weightsIH2[NUM_HIDDEN_NEURONS_2][NUM_HIDDEN_NEURONS];
     double weightsHO2[NUM_OUTPUTS][NUM_HIDDEN_NEURONS_2];
@@ -129,10 +133,12 @@ void Train(double trainingData[][NUM_INPUTS], double expectedData[][NUM_OUTPUTS]
     double outputs[NUM_OUTPUTS];
 
     double learningRate = LEARNING_RATE;
-    for (int epoch = 0; epoch < MAX_EPOCHS; epoch++) {
+    for (int epoch = 0; epoch < MAX_EPOCHS; epoch++) 
+    {
         double mse = 0.0;
 
-        for (int i = 0; i < dataSize; i++) {
+        for (int i = 0; i < dataSize; i++) 
+        {
             for (int j = 0; j < NUM_INPUTS; j++)
                 inputs[j] = trainingData[i][j];
 
@@ -145,7 +151,8 @@ void Train(double trainingData[][NUM_INPUTS], double expectedData[][NUM_OUTPUTS]
         mse /= dataSize;
 
         // Print MSE every 1000 epochs
-        if ((epoch + 1) % 1000 == 0) {
+        if ((epoch + 1) % 1000 == 0) 
+        {
             printf("Epoch %d - MSE: %.6f\n", epoch + 1, mse);
         }
     }
