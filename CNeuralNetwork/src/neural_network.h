@@ -3,7 +3,7 @@
 #ifndef NEURAL_NETWORK_H
 #define NEURAL_NETWORK_H
 
-#include "Constants.h"
+#include "constants.h"
 
 #include <stdio.h>
 #include <stdlib.h>
