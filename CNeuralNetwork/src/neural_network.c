@@ -4,7 +4,7 @@
 double Sigmoid(double x) { return 1.0 / (1.0 + exp(-x)); }
 
 // Derivative of Sigmoid function
-double SigmoidDerivative(double x) {  return x * (1.0 - x); }
+double SigmoidDerivative(double x) { return x * (1.0 - x); }
 
 // Random number generator
 double Random() { return (double)rand() / RAND_MAX * 2.0 - 1.0; }
@@ -21,7 +21,7 @@ void Initialize(double weights[][NUM_INPUTS], int rows, int cols)
 }
 
 // Calculate the dot product of inputs and weights
-double Activate(double* weights, double* inputs, int len) 
+double Activate(double* weights, double* inputs, int len)
 {
     double sum = 0.0;
     for (int i = 0; i < len; i++)
@@ -30,7 +30,7 @@ double Activate(double* weights, double* inputs, int len)
 }
 
 // Calculate Mean Squared Error (MSE) for regression
-double CalculateMSE(double* outputs, double* expected) 
+double CalculateMSE(double* outputs, double* expected)
 {
     double sum = 0.0;
     for (int i = 0; i < NUM_OUTPUTS; i++)
@@ -39,9 +39,9 @@ double CalculateMSE(double* outputs, double* expected)
 }
 
 // Shuffle the data (optional for better convergence)
-void Shuffle(double* data, int dataSize) 
+void Shuffle(double* data, int dataSize)
 {
-    for (int i = 0; i < dataSize; i++) 
+    for (int i = 0; i < dataSize; i++)
     {
         int j = rand() % dataSize;
         double temp = data[i];
@@ -51,8 +51,8 @@ void Shuffle(double* data, int dataSize)
 }
 
 // Forward propagation (with 2 hidden layers)
-void ForwardPropagation(double inputs[], double hiddenLayer[], double hiddenLayer2[], double outputs[], double weightsIH[][NUM_HIDDEN_NEURONS], 
-    double weightsIH2[][NUM_HIDDEN_NEURONS_2], double weightsHO2[][NUM_OUTPUTS]) 
+void ForwardPropagation(double inputs[], double hiddenLayer[], double hiddenLayer2[], double outputs[], double weightsIH[][NUM_HIDDEN_NEURONS],
+    double weightsIH2[][NUM_HIDDEN_NEURONS_2], double weightsHO2[][NUM_OUTPUTS])
 {
     // First hidden layer
     for (int i = 0; i < NUM_HIDDEN_NEURONS; i++)
@@ -68,13 +68,13 @@ void ForwardPropagation(double inputs[], double hiddenLayer[], double hiddenLaye
 }
 
 // Backpropagation for weight adjustments
-void Backpropagation(double inputs[], double hiddenLayer[], double hiddenLayer2[], double outputs[], double expected[], double weightsIH[][NUM_HIDDEN_NEURONS], 
-    double weightsIH2[][NUM_HIDDEN_NEURONS_2], double weightsHO2[][NUM_OUTPUTS], double learningRate) 
+void Backpropagation(double inputs[], double hiddenLayer[], double hiddenLayer2[], double outputs[], double expected[], double weightsIH[][NUM_HIDDEN_NEURONS],
+    double weightsIH2[][NUM_HIDDEN_NEURONS_2], double weightsHO2[][NUM_OUTPUTS], double learningRate)
 {
     double outputError[NUM_OUTPUTS];
     double outputDelta[NUM_OUTPUTS];
 
-    for (int i = 0; i < NUM_OUTPUTS; i++) 
+    for (int i = 0; i < NUM_OUTPUTS; i++)
     {
         outputError[i] = expected[i] - outputs[i];
         outputDelta[i] = outputError[i] * SigmoidDerivative(outputs[i]);
@@ -83,7 +83,7 @@ void Backpropagation(double inputs[], double hiddenLayer[], double hiddenLayer2[
     double hiddenLayer2Error[NUM_HIDDEN_NEURONS_2];
     double hiddenLayer2Delta[NUM_HIDDEN_NEURONS_2];
 
-    for (int i = 0; i < NUM_HIDDEN_NEURONS_2; i++) 
+    for (int i = 0; i < NUM_HIDDEN_NEURONS_2; i++)
     {
         hiddenLayer2Error[i] = 0.0;
         for (int j = 0; j < NUM_OUTPUTS; j++)
@@ -133,11 +133,11 @@ void Train(double trainingData[][NUM_INPUTS], double expectedData[][NUM_OUTPUTS]
     double outputs[NUM_OUTPUTS];
 
     double learningRate = LEARNING_RATE;
-    for (int epoch = 0; epoch < MAX_EPOCHS; epoch++) 
+    for (int epoch = 0; epoch < MAX_EPOCHS; epoch++)
     {
         double mse = 0.0;
 
-        for (int i = 0; i < dataSize; i++) 
+        for (int i = 0; i < dataSize; i++)
         {
             for (int j = 0; j < NUM_INPUTS; j++)
                 inputs[j] = trainingData[i][j];
@@ -151,7 +151,7 @@ void Train(double trainingData[][NUM_INPUTS], double expectedData[][NUM_OUTPUTS]
         mse /= dataSize;
 
         // Print MSE every 1000 epochs
-        if ((epoch + 1) % 1000 == 0) 
+        if ((epoch + 1) % 1000 == 0)
         {
             printf("Epoch %d - MSE: %.6f\n", epoch + 1, mse);
         }
