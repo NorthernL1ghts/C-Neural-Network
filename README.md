@@ -1,6 +1,6 @@
 # XOR Neural Network in C
 
-A simple multi-layer perceptron neural network written in C++ to solve the classic XOR problem using backpropagation. The network has two hidden layers and trains using a mean squared error loss function.
+A simple multi-layer perceptron neural network written in C to solve the classic XOR problem using backpropagation. The network has two hidden layers and trains using a mean squared error loss function.
 
 ## Features
 
@@ -16,9 +16,9 @@ A simple multi-layer perceptron neural network written in C++ to solve the class
 
 ## Tech Stack
 
-- **Language:** C++
-- **Standard:** C++20
-- **Libraries:** `cmath`, `cstdlib`, `ctime`
+- **Language:** C
+- **Standard:** C20
+- **Libraries:** `math.h`, `stdlib.h`, `time.h`
 - **Operating System:** Tested on Linux and Windows
 
 ## Project Structure
@@ -26,37 +26,54 @@ A simple multi-layer perceptron neural network written in C++ to solve the class
 ```
 .
 ├── bin/
-│   └── xor_nn           # Compiled executable
+│   └── Debug/
+│       └── x64/
+│           └── CNeuralNetwork/
+│               └── CNeuralNetwork.exe
 ├── bin-int/
-│   └── build/           # Intermediate build files
-└── src/
-    └── main.cpp         # Neural network source code
+│   └── Debug/
+│       └── x64/
+│           └── CNeuralNetwork/
+│               └── main.obj
+└── CNeuralNetwork/
+    ├── CNeuralNetwork.vcxproj
+    ├── CNeuralNetwork.vcxproj.filters
+    └── src/
+        └── main.c
 ```
 
 ## Build and Run Instructions
 
 ### Requirements
 
-- A C++ compiler supporting C++20 (e.g., `g++` on Linux, `MinGW` on Windows).
+- A C compiler supporting C17 (e.g., `gcc` on Linux, Visual Studio on Windows).
 
 ### Build Instructions
+
+#### Using GCC
 
 Compile the program using the following command:
 
 ```bash
-g++ -std=c++20 -o bin/xor_nn src/main.cpp -lm
+gcc -std=c17 -o bin/Debug/x64/CNeuralNetwork/CNeuralNetwork src/main.c -lm
 ```
 
-- `-std=c++20`: Use the C++20 standard.
-- `-o bin/xor_nn`: Output the executable to the `bin` directory.
+- `-std=c17`: Use the C17 standard.
+- `-o bin/Debug/x64/CNeuralNetwork/CNeuralNetwork`: Output the executable to the `bin` directory.
 - `-lm`: Link the math library for functions like `exp()`.
+
+#### Using Visual Studio
+
+1. Open the `CNeuralNetwork.sln` file in Visual Studio.
+2. Select the appropriate build configuration (e.g., Debug x64).
+3. Build the solution (`Ctrl+Shift+B`).
 
 ### Run the Program
 
 Execute the compiled program:
 
 ```bash
-./bin/xor_nn
+./bin/Debug/x64/CNeuralNetwork/CNeuralNetwork.exe
 ```
 
 ### Sample Output
@@ -79,7 +96,7 @@ Input: 1.00 1.00, Output: 0.00, Expected: 0.00
 
 ### Parameters
 
-You can modify the following parameters in `main.cpp`:
+You can modify the following parameters in `main.c`:
 
 - **Learning Rate**: Adjust the `learningRate` variable.
 - **Epochs**: Set the number of training epochs with the `epochs` variable.
